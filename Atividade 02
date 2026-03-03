@@ -1,0 +1,127 @@
+1- Qual o valor de y no final do programa? 
+#include <stdio.h>
+main()
+{
+int y, *p, x;
+y = 0;
+p = &y;
+x = *p;
+x = 4;
+++(*p);
+x–;
+(*p) += x++;
+printf (“y = %d\n”, y);
+
+R: y=4
+-----------------------------------------------------------------------
+
+2-Teste e explique a diferença, caso exista, entre
+p++: mesma coisa que p+1; pula para o próximo espaço de memória.
+(*p)++: aumenta 1 unidade no valor apontado por p.
+*(++p):primeiro pula 1 unidade de espaço de memória, depois pega o valor deste espaço.
+b) O que quer dizer *(p+10)?
+
+-----------------------------------------------------------------------
+
+3-Quais serão os valores de x, y e p ao final do trecho de código
+abaixo?
+int x, y, *p;
+y = 0;
+p = &y;
+x = *p;
+x = 4;
+(*p)++;
+–x;
+(*p) += x;
+
+R: y=4 , x=3 e p=&y
+
+-----------------------------------------------------------------------
+
+4-Os programas (trechos de código) abaixo possuem erros. Qual(is)?
+Como deveriam ser?
+a)
+void main() {
+int x, *p;
+x = 100;
+p = x; 
+printf(“Valor de p: %d.\n”, *p);}
+R: p aponta para um número e não para um espaço na memória, falta do & ao lado do x.
+
+CORIGIDO:
+a)
+void main() {
+int x, *p;
+x = 100;
+p = &x; 
+printf(“Valor de p: %d.\n”, *p);}
+
+////////////////////////////////////
+
+b)
+void troca (int *i, int *j) {
+int *temp;
+*temp = *i; //Não tem necessidade de temp ser um ponteiro
+*i = *j;
+*j = *temp;}
+
+R: temp não foi definido anteriormente, pega um valor aleatório
+
+CORRIGIDO:
+void troca (int *i, int *j) {
+int *temp;
+temp = *i;
+*i = *j;
+*j = temp;}
+
+///////////////////////////////////////////////////
+
+c)
+char *a, *b;
+a = “abacate”;
+b = “uva”;
+if (a < b)
+printf (“%s vem antes de %s no dicionário”, a, b);
+else
+printf (“%s vem depois de %s no dicionário”, a, b);
+
+R: Está comparando endereços de memória e não qual letra vem antes no alfabeto
+
+CORRIGIDO: 
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char *a = "abacate";
+    char *b = "uva";
+
+    if (strcmp(a, b) < 0)
+        printf("%s vem antes de %s no dicionário\n", a, b);
+    else
+        printf("%s vem depois de %s no dicionário\n", a, b);
+
+-----------------------------------------------------------------------
+
+5- Escreva uma função chamada troca que troca os valores dos
+parâmetros recebidos. Sua assinatura deve ser:void troca(float *a, float *b);
+
+#include <stdio.h>
+
+void troca(float *a, float *b){
+    float temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+    
+}
+
+int main()
+{
+   float x=5.5, y=2.2;
+   
+   troca(&x,&y);
+   
+   printf("x=%f", x);
+   printf("y=%f", y);
+   return 0;
+}
