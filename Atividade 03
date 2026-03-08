@@ -1,11 +1,12 @@
-1.Um Tipo Abstrato de Dados (TAD) é um modelo que define um conjunto de dados e as operações que podem ser realizadas sobre eles, sem mostrar como esses dados são implementados internamente. Sua característica fundamental é a abstração, ou seja, ocultar os detalhes da implementação e permitir que o usuário utilize apenas as operações disponíveis.
+1.Um Tipo Abstrato de Dados (TAD) é um modelo que define um conjunto de dados e as operações que podem ser realizadas sobre eles, sem mostrar como esses dados são implementados internamente. 
+Sua característica fundamental é a abstração, ou seja, ocultar os detalhes da implementação e permitir que o usuário utilize apenas as operações disponíveis.
 
 2. As vantagens de usar TADs são: melhor organização do código, facilidade de manutenção, reutilização de código e maior segurança, pois os dados ficam protegidos e acessíveis apenas por meio das operações definidas.
 
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct{
+typedef struct {
     int numero;
     float saldo;
 } ContBancaria;
@@ -16,27 +17,35 @@ void inicializar(ContBancaria *c, int numero){
 }
 
 void depositar(ContBancaria *c, float valor){
-    c->saldo += valor;
+    if(valor > 0){
+        c->saldo += valor;
+        printf("Deposito realizado com sucesso!\n");
+    }else{
+        printf("Valor de deposito invalido!\n");
+    }
 }
 
 void sacar(ContBancaria *c, float valor){
-    if(valor <= c->saldo){
+    if(valor <= 0){
+        printf("Valor de saque invalido!\n");
+    }
+    else if(valor <= c->saldo){
         c->saldo -= valor;
         printf("Saque realizado com sucesso!\n");
-    }else{
+    }
+    else{
         printf("Saldo insuficiente!\n");
     }
 }
 
 void imprimirSaldo(ContBancaria *c){
-    printf("Conta: %d\n", c->numero);
+    printf("\nNumero da conta: %d\n", c->numero);
     printf("Saldo: %.2f\n", c->saldo);
 }
 
 ContBancaria* criarConta(int numero){
-    ContBancaria *c;
 
-    c = (ContBancaria*) malloc(sizeof(ContBancaria));
+    ContBancaria *c = (ContBancaria*) malloc(sizeof(ContBancaria));
 
     if(c != NULL){
         inicializar(c, numero);
@@ -58,11 +67,12 @@ int main(){
     conta = criarConta(numeroConta);
 
     if(conta == NULL){
-        printf("Erro ao criar conta\n");
+        printf("Erro ao criar conta.\n");
         return 1;
     }
 
     do{
+
         printf("\n--- MENU BANCARIO ---\n");
         printf("1 - Depositar\n");
         printf("2 - Sacar\n");
@@ -90,11 +100,12 @@ int main(){
                 break;
 
             case 4:
-                printf("Encerrando...\n");
+                printf("Encerrando o programa...\n");
                 break;
 
             default:
                 printf("Opcao invalida!\n");
+
         }
 
     }while(opcao != 4);
@@ -102,3 +113,4 @@ int main(){
     free(conta);
 
     return 0;
+}
